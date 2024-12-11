@@ -71,7 +71,7 @@ def predict():
     interest_rate = data['loan_int_rate']
     income = data['person_income']
     if not is_debt_to_income_ratio_valid(loan_amount, income):
-        return jsonify({"error": "❌ Votre prêt est refusé (taux d'endettement trop élevé)."}), 400
+        return jsonify({"error": "❌ Your loan is denied (debt-to-income ratio too high)."}), 400
 
     # Créer un DataFrame à partir des données reçues
     input_data = pd.DataFrame([data])

@@ -12,19 +12,19 @@
     <div class="container">
         <header>
             <h1>Loan Approval System</h1>
-            <p>Découvrez si votre prêt sera approuvé avec notre système IA !</p>
-            <a href="/stats" class="button">Statistiques</a>
+            <p>Discover if your loan will be approved with our AI system!</p>
+            <a href="/stats" class="button">Statistics</a>
         </header>
         <main>
             <form id="loanForm">
                 <div class="form-group">
-                    <label for="person_age">Âge</label>
+                    <label for="person_age">Age</label>
                     <input type="number" id="person_age" name="person_age" placeholder="Ex: 25" required>
                 </div>
                 <div class="form-group">
-                    <label for="person_education">Niveau d'éducation</label>
+                    <label for="person_education">Education Level</label>
                     <select id="person_education" name="person_education" required>
-                        <option value="High School">Bac</option>
+                        <option value="High School">High School</option>
                         <option value="Associate">Associate</option>
                         <option value="Bachelor">Bachelor</option>
                         <option value="Master">Master</option>
@@ -32,48 +32,48 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="person_income">Revenu annuel (€)</label>
+                    <label for="person_income">Annual Income (€)</label>
                     <input type="number" id="person_income" name="person_income" placeholder="Ex: 50000" required>
                 </div>
                 <div class="form-group">
-                    <label for="person_emp_exp">Expérience professionnelle (années)</label>
+                    <label for="person_emp_exp">Professional Experience (years)</label>
                     <input type="number" id="person_emp_exp" name="person_emp_exp" placeholder="Ex: 5" required>
                 </div>
                 <div class="form-group">
-                    <label for="person_home_ownership">Statut de propriété du domicile</label>
+                    <label for="person_home_ownership">Home Ownership Status</label>
                     <select id="person_home_ownership" name="person_home_ownership" required>
-                        <option value="RENT">Location</option>
-                        <option value="OWN">Propriétaire</option>
-                        <option value="MORTGAGE">Crédit immobilier</option>
-                        <option value="OTHER">Autre</option>
+                        <option value="RENT">Rent</option>
+                        <option value="OWN">Owner</option>
+                        <option value="MORTGAGE">Mortgage</option>
+                        <option value="OTHER">Other</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="loan_amnt">Montant du prêt demandé (€)</label>
+                    <label for="loan_amnt">Loan Amount (€)</label>
                     <input type="number" id="loan_amnt" name="loan_amnt" placeholder="Ex: 20000" required>
                 </div>
                 <div class="form-group">
-                    <label for="loan_int_rate">Taux d'intérêt (%)</label>
+                    <label for="loan_int_rate">Interest Rate (%)</label>
                     <input type="number" step="0.01" id="loan_int_rate" name="loan_int_rate" placeholder="Ex: 10.5" required>
                 </div>
                 <div class="form-group">
-                    <label for="loan_intent">Intention du prêt</label>
+                    <label for="loan_intent">Loan Purpose</label>
                     <select id="loan_intent" name="loan_intent" required>
-                        <option value="PERSONAL">Personnel</option>
-                        <option value="EDUCATION">Éducation</option>
-                        <option value="MEDICAL">Médical</option>
+                        <option value="PERSONAL">Personal</option>
+                        <option value="EDUCATION">Education</option>
+                        <option value="MEDICAL">Medical</option>
                         <option value="VENTURE">Venture</option>
-                        <option value="HOMEIMPROVEMENT">Amélioration Maison</option>
-                        <option value="DEBTCONSOLIDATION">Consolidation de Dettes</option>
+                        <option value="HOMEIMPROVEMENT">Home Improvement</option>
+                        <option value="DEBTCONSOLIDATION">Debt Consolidation</option>
                     </select>
                 </div>
-                <button type="submit">Soumettre</button>
+                <button type="submit">Submit</button>
             </form>
             <div id="result" class="hidden"></div>
         </main>
         <footer>
-            <p>© 2024 Loan Approval System - Inspiré par Boursorama</p>
-            <p>Réalisé par</p>
+            <p>© 2024 Loan Approval System - Inspired by Boursorama</p>
+            <p>Created by</p>
             <p>LENORMANT Thomas - OUTAFOUT Nadir - RAIAD Imrane - DEMARTHE Augustin</p>
         </footer>
     </div>
@@ -86,12 +86,12 @@
             const formData = new FormData(form);
             const data = Object.fromEntries(formData);
 
-            // Convertir les valeurs numériques
+            // Convert numeric values
             data.person_age = Number(data.person_age);
             data.person_income = Number(data.person_income);
             data.loan_amnt = Number(data.loan_amnt);
             data.loan_int_rate = Number(data.loan_int_rate);
-            data.person_emp_exp = Number(data.person_emp_exp);  // Convertir expérience en nombre
+            data.person_emp_exp = Number(data.person_emp_exp);  // Convert experience to number
 
             try {
                 const response = await fetch('/predict', {
@@ -103,14 +103,14 @@
                 const result = await response.json();
                 if (response.ok) {
                     resultDiv.textContent = result.loan_status === 1 ?
-                        "✅ Votre prêt est accepté !" :
-                        "❌ Votre prêt est refusé.";
+                        "✅ Your loan is approved!" :
+                        "❌ Your loan is denied.";
                 } else {
                     resultDiv.textContent = result.error;
                 }
                 resultDiv.classList.remove('hidden');
             } catch (error) {
-                resultDiv.textContent = "Erreur lors de la soumission.";
+                resultDiv.textContent = "Error during submission.";
                 resultDiv.classList.remove('hidden');
             }
         });

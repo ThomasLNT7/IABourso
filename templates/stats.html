@@ -3,43 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Statistiques sur l'IA</title>
+    <title>AI Statistics</title>
     <link rel="stylesheet" href="/static/stats.css">
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>Statistiques de l'IA</h1>
-            <p>Analyse des performances de votre modèle de prêt</p>
-            <a href="/" class="button">Retour</a>
+            <h1>AI Statistics</h1>
+            <p>Performance analysis of your loan model</p>
+            <a href="/" class="button">Back</a>
         </header>
         <main>
             <section>
-                <h2>Précision par Seed</h2>
+                <h2>Accuracy by Seed</h2>
                 <div class="metrics">
-                    <h3>Précision moyenne :</h3>
-                    <img src="/static/accuracy_per_seed.png" alt="Précision par seed">
+                    <h3>Average Accuracy:</h3>
+                    <img src="/static/accuracy_per_seed.png" alt="Accuracy by seed">
                 </div>
             </section>
             <section>
-                <h2>Matrices de Confusion et Métriques</h2>
+                <h2>Confusion Matrices and Metrics</h2>
                 {% for result, matrix in zip(results, confusion_matrices) %}
                     <div class="confusion-section">
-                        <h3>Matrice de confusion (Seed {{ result.seed }})</h3>
-                        <img src="/static/{{ matrix }}" alt="Matrice de confusion">
+                        <h3>Confusion Matrix (Seed {{ result.seed }})</h3>
+                        <img src="/static/{{ matrix }}" alt="Confusion Matrix">
                         <ul>
-                            <li>Précision : {{ result.accuracy | round(2) }}</li>
-                            <li>Précision (classe 1) : {{ result.precision | round(2) }}</li>
-                            <li>Rappel (classe 1) : {{ result.recall | round(2) }}</li>
-                            <li>F1-score (classe 1) : {{ result.f1_score | round(2) }}</li>
+                            <li>Accuracy: {{ result.accuracy | round(2) }}</li>
+                            <li>Precision (Class 1): {{ result.precision | round(2) }}</li>
+                            <li>Recall (Class 1): {{ result.recall | round(2) }}</li>
+                            <li>F1-score (Class 1): {{ result.f1_score | round(2) }}</li>
                         </ul>
                     </div>
                 {% endfor %}
             </section>
         </main>
         <footer>
-            <p>© 2024 Loan Approval System - Statistiques</p>
-            <p>Réalisé par</p>
+            <p>© 2024 Loan Approval System - Statistics</p>
+            <p>Created by</p>
             <p>LENORMANT Thomas - OUTAFOUT Nadir - RAIAD Imrane - DEMARTHE Augustin</p>
         </footer>
     </div>
