@@ -60,3 +60,19 @@ footer {
     font-size: 0.9rem;
     color: #777;
 }
+
+a {
+    width: 100%;
+    padding: 1rem;
+    background: #db3eb1;
+    color: #fff;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+a:hover {
+    background: #c22a99;
+}
