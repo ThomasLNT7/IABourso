@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Statistiques sur l'IA</title>
+    <link rel="stylesheet" href="/static/stats.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Statistiques de l'IA</h1>
+            <p>Analyse des performances de votre modèle de prêt</p>
+        </header>
+        <main>
+            <section>
+                <h2>Précision par Seed</h2>
+                <div class="metrics">
+                    <h3>Précision moyenne :</h3>
+                    <img src="/static/accuracy_per_seed.png" alt="Précision par seed">
+                </div>
+            </section>
+            <section>
+                <h2>Matrices de Confusion et Métriques</h2>
+                {% for result, matrix in zip(results, confusion_matrices) %}
+                    <div class="confusion-section">
+                        <h3>Matrice de confusion (Seed {{ result.seed }})</h3>
+                        <img src="/static/{{ matrix }}" alt="Matrice de confusion">
+                        <ul>
+                            <li>Précision : {{ result.accuracy | round(2) }}</li>
+                            <li>Précision (classe 1) : {{ result.precision | round(2) }}</li>
+                            <li>Rappel (classe 1) : {{ result.recall | round(2) }}</li>
+                            <li>F1-score (classe 1) : {{ result.f1_score | round(2) }}</li>
+                        </ul>
+                    </div>
+                {% endfor %}
+            </section>
+        </main>
+        <footer>
+            <p>© 2024 Loan Approval System - Statistiques</p>
+        </footer>
+    </div>
+</body>
+</html>
