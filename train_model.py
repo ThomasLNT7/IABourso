@@ -1,9 +1,8 @@
 import json
-
 import numpy as np
 import pandas as pd
 import logging
-from sklearn.model_selection import train_test_split, cross_val_score
+from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.preprocessing import LabelEncoder
 from sklearn.metrics import classification_report, confusion_matrix
@@ -59,8 +58,7 @@ data['debt_to_income_ratio'] = (data['loan_amnt'] * (data['loan_int_rate'] / 100
 features = [
     'person_age', 'person_education', 'person_income',
     'person_emp_exp', 'person_home_ownership', 'loan_amnt', 'loan_intent',
-    'loan_int_rate', 'cb_person_cred_hist_length',
-    'credit_score', 'previous_loan_defaults_on_file', 'debt_to_income_ratio'
+    'loan_int_rate', 'debt_to_income_ratio'  # Inclure 'debt_to_income_ratio'
 ]
 target = 'loan_status'
 
@@ -96,7 +94,6 @@ for seed in SEEDS:
     report = classification_report(y_test, y_pred, output_dict=True)
     conf_matrix = confusion_matrix(y_test, y_pred)
 
-
     # Calculer les métriques
     accuracy = report["accuracy"]
     precision_1 = report["1"]["precision"]
@@ -122,9 +119,9 @@ for seed in SEEDS:
     plt.savefig(f"static/confusion_matrix_seed_{seed}.png")
     plt.clf()  # Nettoyer le graphique pour la prochaine seed
 
-    # Sauvegarder les métriques pour les utiliser dans Flask
-    with open("static/results.json", "w") as f:
-        json.dump(results, f)
+# Sauvegarder les métriques pour les utiliser dans Flask
+with open("static/results.json", "w") as f:
+    json.dump(results, f)
 
 # --- SAUVEGARDE DU MODÈLE FINAL ---
 logging.info("Sauvegarde du dernier modèle entraîné...")
@@ -136,7 +133,6 @@ logging.info(f"Modèle sauvegardé sous {MODEL_FILE}.")
 logging.info("Génération des graphiques globaux...")
 
 # Courbes de précision pour chaque seed
-# Génération de l'histogramme des précisions par seed
 plt.figure(figsize=(10, 6))
 
 # Index des seeds (pour affichage simplifié sur l'axe X)
@@ -144,32 +140,18 @@ seeds = [result["seed"] for result in results]
 accuracies = [result["accuracy"] for result in results]
 average_accuracy = sum(accuracies) / len(accuracies)
 
-# Utiliser des indices simples pour l'axe X
-x_indices = np.arange(len(seeds))
-
 # Création de l'histogramme
+x_indices = np.arange(len(seeds))
 plt.bar(x_indices, accuracies, color='skyblue', edgecolor='black', label="Précision par seed")
-
-# Annoter chaque barre avec la précision
 for i, acc in enumerate(accuracies):
     plt.text(x=i, y=acc + 0.001, s=f"{acc:.2f}", ha='center', fontsize=10)
-
-# Ajouter une ligne pour la précision moyenne
 plt.axhline(y=average_accuracy, color='red', linestyle='--', label=f"Précision moyenne ({average_accuracy:.2f})")
-
-# Ajuster les limites de l'axe Y pour rendre les variations visibles
-y_min = min(accuracies) - 0.01
-y_max = max(accuracies) + 0.01
-plt.ylim(y_min, y_max)
-
-# Titres et légendes
+plt.ylim(min(accuracies) - 0.01, max(accuracies) + 0.01)
 plt.title("Précision du modèle pour différentes seeds")
 plt.xlabel("Seed (index)")
 plt.ylabel("Précision")
-plt.xticks(x_indices, [f"Seed {i+1}" for i in range(len(seeds))])  # Afficher "Seed 1", "Seed 2", ...
+plt.xticks(x_indices, [f"Seed {i+1}" for i in range(len(seeds))])
 plt.legend()
-
-# Sauvegarder le graphique
 plt.savefig("static/accuracy_per_seed.png")
 plt.clf()
 
